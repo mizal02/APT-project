@@ -7,6 +7,10 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import MainTemplate from "../components/templates/MainTemplate/MainTemplate";
 import AddUser from "./AddUser";
 import Dashboard from "./Dashboard";
+import Login from "./Login";
+import Registration from "./Registration";
+import MainPage from "./MainPage";
+import Rental from "./Rental";
 import { UsersProvider } from "../providers/UsersProvider";
 
 const Root = () => {
@@ -18,8 +22,20 @@ const Root = () => {
 					<UsersProvider>
 						<Wrapper>
 							<Switch>
-								<Route path="/add-user">
+								{/* <Route path="/add-user">
 									<AddUser />
+								</Route> */}
+								<Route path="/rental">
+									<Rental />
+								</Route>
+								<Route path="/login">
+									<Login />
+								</Route>
+								<Route path="/register">
+									<Registration />
+								</Route>
+								<Route path="/main-page">
+									<MainPage />
 								</Route>
 								<Route path="/">
 									<Dashboard />

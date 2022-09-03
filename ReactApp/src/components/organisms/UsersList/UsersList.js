@@ -8,10 +8,10 @@ import { UserShape } from "../../../types/index";
 const UsersList = ({ users }) => {
 	return (
 		<>
-			<StyledTitle>Students list</StyledTitle>
+			<StyledTitle>Users list</StyledTitle>
 			<StyledList>
 				{users.map((userData) => (
-					<UserListItem key={userData.name} userData={userData} />
+					<UserListItem key={userData.email} userData={userData} />
 				))}
 			</StyledList>
 		</>

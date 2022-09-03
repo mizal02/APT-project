@@ -1,32 +1,40 @@
-import React, { useState, useContext } from "react";
+import React, { useContext, useReducer } from "react";
 import FormField from "../components/molecules/FormField/FormField";
 import { ViewWrapper } from "../components/molecules/ViewWrapper/ViewWrapper.js.js";
 import { Title as StyledTitle } from "../components/atoms/Title/Title.styles";
 import { Button } from "../components/atoms/Button/Button";
 import { UsersContext } from "../providers/UsersProvider";
+import { useForm } from "../hooks/useForm";
 
 const initialFormState = {
-	name: "",
-	attendance: "",
-	average: "",
+	firstname: "",
+	lastname: "",
+	email: "",
+	password: "",
+	error: "",
 };
 
 const AddUser = () => {
-	const [formValues, setFormValues] = useState(initialFormState);
 	const { handleAddUser } = useContext(UsersContext);
-
-	const handleInputChange = (e) => {
-		setFormValues({
-			...formValues,
-			[e.target.name]: e.target.value,
-		});
-	};
+	// const dimensions = useWindowHeight();
+	const {
+		formValues,
+		handleInputChange,
+		handleClearForm,
+		handleThrowError,
+		handleToggleConsent,
+	} = useForm(initialFormState);
 
 	const handleSubmitUser = (e) => {
 		e.preventDefault();
-		handleAddUser(formValues);
 
-		setFormValues(initialFormState);
+		if (formValues.consent) {
+			handleAddUser(formValues);
+			handleClearForm(initialFormState);
+		} else {
+			handleThrowError("You need to give consent");
+		}
+		// setFormValues(initialFormState);
 	};
 
 	return (
@@ -53,7 +61,16 @@ const AddUser = () => {
 				value={formValues.average}
 				onChange={handleInputChange}
 			/>
+			<FormField
+				label="Consent"
+				id="consent"
+				name="consent"
+				type="checkbox"
+				value={formValues.consent}
+				onChange={handleToggleConsent}
+			/>
 			<Button type="submit">Add</Button>
+			{formValues.error ? <p>{formValues.error}</p> : null}
 		</ViewWrapper>
 	);
 };

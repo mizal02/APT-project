@@ -1,68 +1,57 @@
-import React, { useState, useContext } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import FormField from "../components/molecules/FormField/FormField";
-import { ViewWrapper } from "../components/molecules/ViewWrapper/ViewWrapper.js.js";
 import { Title as StyledTitle } from "../components/atoms/Title/Title.styles";
-import { Button } from "../components/atoms/Button/Button";
+import { ViewWrapper } from "../components/molecules/ViewWrapper/ViewWrapper.js";
 import { UsersContext } from "../providers/UsersProvider";
+import { useForm } from "../hooks/useForm";
+import { Button } from "../components/atoms/Button/Button";
+
 
 const initialFormState = {
 	firstname: "",
 	lastname: "",
 	email: "",
 	password: "",
+	error: "",
 	// accountBalance: "",
 };
 
 const Login = () => {
-	const [formValues, setFormValues] = useState(initialFormState);
-	const { handleAddUser } = useContext(UsersContext);
-
-	const handleInputChange = (e) => {
-		setFormValues({
-			...formValues,
-			[e.target.name]: e.target.value,
-		});
-	};
+	const { formValues, handleInputChange, handleClearForm, handleThrowError } =
+		useForm(initialFormState);
 
 	const handleSubmitUser = (e) => {
 		e.preventDefault();
-		handleAddUser(formValues);
 
-		setFormValues(initialFormState);
+		if (formValues.login && formValues.password) {
+			handleClearForm(initialFormState);
+		} else {
+			handleThrowError("Błędny login lub hasło");
+		}
 	};
 
 	return (
 		<ViewWrapper as="form" onSubmit={handleSubmitUser}>
 			<StyledTitle>Zaloguj się</StyledTitle>
 			<FormField
-				label="Firstname"
-				id="firstname"
-				name="firstname"
-				value={formValues.firstname}
-				onChange={handleInputChange}
-			/>
-			<FormField
-				label="Lastame"
-				id="lastname"
-				name="lastname"
-				value={formValues.lastname}
-				onChange={handleInputChange}
-			/>
-			<FormField
-				label="Email"
-				id="email"
-				name="email"
-				value={formValues.email}
+				label="Login"
+				id="login"
+				name="login"
+				value={formValues.login}
 				onChange={handleInputChange}
 			/>
 			<FormField
 				label="Password"
 				id="password"
 				name="password"
+				type="password"
 				value={formValues.password}
 				onChange={handleInputChange}
 			/>
 			<Button type="submit">Zaloguj</Button>
+
+			{/* <p>Zarejestruj się</p> */}
+			{/* tutaj będzie link do rejestracji */}
 		</ViewWrapper>
 	);
 };

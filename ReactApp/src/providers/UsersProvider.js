@@ -10,16 +10,17 @@ export const UsersContext = React.createContext({
 export const UsersProvider = ({ children }) => {
 	const [users, setUsers] = useState(usersData);
 
-	const deleteUser = (name) => {
-		const filteredUsers = users.filter((user) => user.name !== name);
+	const deleteUser = (login) => {
+		const filteredUsers = users.filter((user) => user.login !== login);
 		setUsers(filteredUsers);
 	};
 
 	const handleAddUser = (values) => {
 		const newUser = {
-			name: values.name,
-			attendance: values.attendance,
-			average: values.average,
+			firstname: values.firstname,
+			lastname: values.lastname,
+			email: values.email,
+			accountBalance: values.accountBalance,
 		};
 
 		setUsers([newUser, ...users]);
