@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebService.Dto;
 using WebService.Models;
@@ -7,7 +8,7 @@ using WebService.Services;
 
 namespace WebService.Controllers
 {
-    [Route("/api/users/")]
+    [Route("/api/users")]
     public class UserController : ControllerBase
     {
         private readonly DataContext _dataContext;
@@ -19,17 +20,17 @@ namespace WebService.Controllers
             _jwtHandler = jwtHandler;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> RegisterUser(string email, string password, string username)
+        [HttpPost("register")]
+        public async Task<IActionResult> RegisterUser([FromBody] Register command)
         {
-            var user = await _dataContext.Users.SingleOrDefaultAsync(x => x.Email == email || x.Username == username);
+            var user = await _dataContext.Users.SingleOrDefaultAsync(x => x.Email == command.Email || x.Username == command.Username);
             if (user != null)
                 throw new Exception("User with this email/username already exists");
-           
-            user = new User("user", username, email, password);
+
+            user = new User("user", command.Username, command.Email, command.Password);
             await _dataContext.Users.AddAsync(user);
             await _dataContext.SaveChangesAsync();
-            return Created($"/users/{email}", null);
+            return Created($"/users/{command.Email}", null);
         }
 
         [HttpPost("deactive/{id}")]
@@ -44,17 +45,28 @@ namespace WebService.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<object> Login([FromBody]Login command)
+        public async Task<IActionResult> Login([FromBody] Login command)
         {
             var user = await _dataContext.Users.SingleOrDefaultAsync(x => x.Username == command.Username);
             if (user == null || user.Password != command.Password)
                 throw new Exception("Invalid credentials");
             var token = _jwtHandler.CreateToken(user.Id, user.Role, command.Username);
-            return new
+            return Ok(new
             {
                 Token = token,
-                Role = user.Role
-            };
+                Role = user.Role,
+                Username = user.Username,
+                Id = user.Id
+            });
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUser(Guid id)
+        {
+            var user = await _dataContext.Users.SingleOrDefaultAsync(x => x.Id == id);
+            if (user == null)
+                return NotFound();
+            return Ok(user);
         }
     }
 }
