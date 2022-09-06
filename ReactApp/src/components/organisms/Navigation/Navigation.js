@@ -1,7 +1,10 @@
 import React from "react";
 import { Wrapper, Logo, StyledLink } from "./Navigation.styles";
+import { useAuth } from "../../../hooks/use-auth";
 
 const Navigation = () => {
+	const auth = useAuth();
+
 	return (
 		<Wrapper>
 			<Logo>
@@ -15,9 +18,10 @@ const Navigation = () => {
 				Dashboard
 			</StyledLink>
 			{/* <StyledLink to="/add-user">Add user</StyledLink> */}
-			<StyledLink to="/rental">Wypożycz</StyledLink>
 			<StyledLink to="/login">Zaloguj</StyledLink>
 			<StyledLink to="/register">Zarejestruj</StyledLink>
+
+			<StyledLink to="/rental">Wypożycz</StyledLink>
 			<StyledLink to="/main-page">Informacje</StyledLink>
 
 			{/* <StyledLink to="/">Settings</StyledLink>

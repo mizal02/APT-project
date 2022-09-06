@@ -7,7 +7,15 @@ import { UserShape } from "../../../types";
 import { UsersContext } from "../../../providers/UsersProvider";
 
 const UserListItem = ({
-	userData: { average, firstname, lastname, accountBalance = "5", login },
+	userData: {
+		average,
+		firstname,
+		lastname,
+		accountBalance = "5",
+		login,
+		time = "0",
+		route = "0",
+	},
 }) => {
 	const { deleteUser } = useContext(UsersContext);
 	return (
@@ -18,8 +26,10 @@ const UserListItem = ({
 					{firstname} {lastname}
 					<DeleteButton onClick={() => deleteUser(login)} />
 				</p>
-				<p>{login}</p>
-				<p>{accountBalance} zł</p>
+				<p>Login: {login}</p>
+				<p>Stan konta: {accountBalance} zł</p>
+				<p>Czas wypożyczenia: {time}</p>
+				<p>Przejechana trasa: {route}</p>
 			</StyledInfo>
 		</Wrapper>
 	);

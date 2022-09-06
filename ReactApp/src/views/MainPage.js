@@ -7,6 +7,7 @@ import UserListItem from "../components/molecules/StudentsListItem/StudentsListI
 import FormField from "../components/molecules/FormField/FormField";
 import { useForm } from "../hooks/useForm";
 
+let isClick = true;
 const MainPage = () => {
 	const { handleAddUser } = useContext(UsersContext);
 	const [account, setAccount] = useState([]);
@@ -16,21 +17,25 @@ const MainPage = () => {
 	const onButtonClick = (e) => {
 		// handleAddUser(formValues);
 	};
+
 	const handleAddOnClick = (e) => {
-		setAccount(
-			account.concat(
-				<>
-					<FormField
-						label="Kwota"
-						id="accountBalance"
-						name="accountBalance"
-						value={formValues.accountBalance}
-						onChange={handleInputChange}
-					/>
-					<Button onClick={onButtonClick}>Doładuj</Button>
-				</>
-			)
-		);
+		if (isClick) {
+			setAccount(
+				account.concat(
+					<>
+						<FormField
+							label="Kwota"
+							id="accountBalance"
+							name="accountBalance"
+							value={formValues.accountBalance}
+							onChange={handleInputChange}
+						/>
+						<Button onClick={onButtonClick}>Doładuj</Button>
+					</>
+				)
+			);
+		}
+		isClick = false;
 	};
 
 	return (

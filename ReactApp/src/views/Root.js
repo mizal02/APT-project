@@ -13,6 +13,8 @@ import MainPage from "./MainPage";
 import Rental from "./Rental";
 import { UsersProvider } from "../providers/UsersProvider";
 
+
+import { ProvideAuth } from "../hooks/use-auth";
 const Root = () => {
 	return (
 		<BrowserRouter>

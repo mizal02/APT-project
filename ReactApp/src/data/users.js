@@ -6,6 +6,8 @@ export const users = [
 		email: "adam.romanski@gmail.com",
 		password: "111",
 		accountBalance: "15",
+		time: '20',
+		route: '5'
 	},
 	{
 		firstname: "Krzysztof",
@@ -46,5 +48,7 @@ export const users = [
 		email: "nowakpawel@gmail.com",
 		password: "666",
 		accountBalance: "65",
+		time: '10',
+		route: '3'
 	},
 ];
