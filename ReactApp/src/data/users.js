@@ -2,17 +2,17 @@ export const users = [
 	{
 		firstname: "Adam",
 		lastname: "Romański",
-		login: 'adam1',
+		username: "adam1",
 		email: "adam.romanski@gmail.com",
 		password: "111",
 		accountBalance: "15",
-		time: '20',
-		route: '5'
+		time: "20",
+		route: "5",
 	},
 	{
 		firstname: "Krzysztof",
 		lastname: "Batko",
-		login: 'krzys1',
+		username: "krzys1",
 		email: "krzys.batko@gmail.com",
 		password: "222",
 		accountBalance: "25",
@@ -20,7 +20,7 @@ export const users = [
 	{
 		firstname: "Patrycja",
 		lastname: "Gonciarz",
-		login: 'patrycja1',
+		username: "patrycja1",
 		email: "patrycjago@gmail.com",
 		password: "333",
 		accountBalance: "35",
@@ -28,7 +28,7 @@ export const users = [
 	{
 		firstname: "Olga",
 		lastname: "Kowalska",
-		login: 'olga1',
+		username: "olga1",
 		email: "olgakowal@gmail.com",
 		password: "444",
 		accountBalance: "45",
@@ -36,7 +36,7 @@ export const users = [
 	{
 		firstname: "Paweł",
 		lastname: "Andrzejewski",
-		login: 'pawel1',
+		username: "pawel1",
 		email: "andrzejewskip@gmail.com",
 		password: "555",
 		accountBalance: "55",
@@ -44,11 +44,11 @@ export const users = [
 	{
 		firstname: "Paweł",
 		lastname: "Nowak",
-		login: 'pawel2',
+		username: "pawel2",
 		email: "nowakpawel@gmail.com",
 		password: "666",
 		accountBalance: "65",
-		time: '10',
-		route: '3'
+		time: "10",
+		route: "3",
 	},
 ];

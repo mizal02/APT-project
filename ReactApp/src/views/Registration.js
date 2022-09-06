@@ -8,6 +8,7 @@ import { UsersContext } from "../providers/UsersProvider";
 const initialFormState = {
 	firstname: "",
 	lastname: "",
+	username: "",
 	email: "",
 	password: "",
 	// accountBalance: "",
@@ -50,9 +51,9 @@ const Registration = () => {
 			/>
 			<FormField
 				label="Login"
-				id="login"
-				name="login"
-				value={formValues.login}
+				id="username"
+				name="username"
+				value={formValues.username}
 				onChange={handleInputChange}
 			/>
 			<FormField

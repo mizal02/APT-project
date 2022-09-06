@@ -12,7 +12,7 @@ export const UsersProvider = ({ children }) => {
 	const [updateUsers, setUpdateUsers] = useState(usersData);
 
 	const deleteUser = (login) => {
-		const filteredUsers = users.filter((user) => user.login !== login);
+		const filteredUsers = users.filter((user) => user.username !== login);
 		setUsers(filteredUsers);
 	};
 	//dodawanie nowego użytkownika

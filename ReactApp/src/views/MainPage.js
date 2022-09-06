@@ -38,15 +38,22 @@ const MainPage = () => {
 		isClick = false;
 	};
 
+	// const handleEditData = (e) => {
+	// 	//tuatj formularz, albo strona do zmiany danych
+	// };
+
 	return (
 		<ViewWrapper>
 			<Title>Witaj, {users[0].login}</Title>
+			<Title>
+				{users[0].firstname} {users[0].lastname}
+			</Title>
 			<p>Stan twojego konta wynosi: {users[0].accountBalance} zł</p>
 			{account}
 			<Button type="submit" onClick={handleAddOnClick}>
 				Doładuj konto
 			</Button>
-			<p>Zmień hasło?</p>
+			<Button>Edytuj konto</Button>
 		</ViewWrapper>
 	);
 };
