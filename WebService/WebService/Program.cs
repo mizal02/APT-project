@@ -8,7 +8,10 @@ using WebService.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddCors(opt => opt.AddPolicy(name: "MyPolicy", policy => policy
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader()));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -29,10 +32,12 @@ builder.Services.AddAuthentication(x =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("super_sekret123!"))
     };
 });
+
 builder.Services.AddDbContext<DataContext>(options =>
                 options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddTransient<JwtHandler>();
+
 
 var app = builder.Build();
 
@@ -44,7 +49,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("MyPolicy");
 app.UseAuthorization();
 
 app.MapControllers();

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebService.Dto;
 using WebService.Models;
 using WebService.Persistance;
 using WebService.Services;
@@ -43,12 +44,12 @@ namespace WebService.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<object> Login(string username, string password)
+        public async Task<object> Login([FromBody]Login command)
         {
-            var user = await _dataContext.Users.SingleOrDefaultAsync(x => x.Username == username);
-            if (user == null || user.Password != password)
+            var user = await _dataContext.Users.SingleOrDefaultAsync(x => x.Username == command.Username);
+            if (user == null || user.Password != command.Password)
                 throw new Exception("Invalid credentials");
-            var token = _jwtHandler.CreateToken(user.Id, user.Role, username);
+            var token = _jwtHandler.CreateToken(user.Id, user.Role, command.Username);
             return new
             {
                 Token = token,
