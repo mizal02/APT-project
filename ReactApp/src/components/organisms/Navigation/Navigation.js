@@ -9,17 +9,20 @@ const Navigation = () => {
 		<Wrapper>
 			<Logo>
 				<h1>
-					Study
+					Wypożyczalnia
 					<br />
-					Buddy
+					Hulajnóg
 				</h1>
 			</Logo>
 			<StyledLink exact to="/">
 				Dashboard
 			</StyledLink>
 			{/* <StyledLink to="/add-user">Add user</StyledLink> */}
+			<StyledLink as="a" onClick={() => localStorage.removeItem("token")}>
+				Logout
+			</StyledLink>
 			<StyledLink to="/login">Zaloguj</StyledLink>
-			<StyledLink to="/register">Zarejestruj</StyledLink>
+			{/* <StyledLink to="/register">Zarejestruj</StyledLink> */}
 
 			<StyledLink to="/rental">Wypożycz</StyledLink>
 			<StyledLink to="/main-page">Informacje</StyledLink>

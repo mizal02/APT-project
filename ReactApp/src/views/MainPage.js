@@ -44,12 +44,12 @@ const MainPage = () => {
 
 	return (
 		<ViewWrapper>
-			<Title>Witaj, {users[0].login}</Title>
+			{/* <Title>Witaj, {users[0].login}</Title>
 			<Title>
 				{users[0].firstname} {users[0].lastname}
 			</Title>
 			<p>Stan twojego konta wynosi: {users[0].accountBalance} zł</p>
-			{account}
+			{account} */}
 			<Button type="submit" onClick={handleAddOnClick}>
 				Doładuj konto
 			</Button>

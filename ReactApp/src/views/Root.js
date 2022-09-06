@@ -35,13 +35,18 @@ const AuthenticatedApp = () => {
 	);
 };
 
-const UnAuthenticatedApp = ({ handleSignIn }) => {
-	const { register, handleSubmit } = useForm();
-	const onSubmit = ({ login, password }) => handleSignIn({ login, password });
+const UnAuthenticatedApp = ({ handleSignIn, loginError }) => {
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
+	// const onSubmit = ({ username, password }) =>
+	// 	handleSignIn({ username, password });
 
 	return (
 		<form
-			onSubmit={handleSubmit(onSubmit)}
+			onSubmit={handleSubmit(handleSignIn)}
 			style={{
 				height: "100vh",
 				display: "flex",
@@ -51,11 +56,11 @@ const UnAuthenticatedApp = ({ handleSignIn }) => {
 			}}>
 			<FormField
 				label="login"
-				name="login"
-				id="login"
-				{...register("login", { required: true })}
+				name="username"
+				id="username"
+				{...register("username", { required: true })}
 			/>
-			{/* {errors.login && <span>Login is required</span>} */}
+			{errors.username && <span>Login jest wymagany</span>}
 			<FormField
 				label="password"
 				name="password"
@@ -63,9 +68,9 @@ const UnAuthenticatedApp = ({ handleSignIn }) => {
 				type="password"
 				{...register("password", { required: true })}
 			/>
-			{/* {errors.password && <span>Password is required</span>}
-	{loginError && <span>{loginError}</span>} */}
+			{errors.password && <span>Hasło jest wymagane</span>}
 			<Button type="submit">Zaloguj się</Button>
+			{loginError && <span>{loginError}</span>}
 		</form>
 	);
 };
@@ -76,33 +81,36 @@ const Root = () => {
 	// 	return <Login setToken={setToken} />
 	// }
 	const [user, setUser] = React.useState(null);
+	const [error, setError] = React.useState(null);
 
 	React.useEffect(() => {
 		const token = localStorage.getItem("token");
 		if (token) {
 			(async () => {
 				try {
-					axios.get("/", {
+					const response = await axios.get("/", {
 						headers: {
 							authorization: `Bearer ${token}`,
 						},
 					});
+					setUser(response.data);
 				} catch (e) {
-					console(e);
+			console.log(e);					
 				}
 			})();
 		}
 	}, []);
 
-	const handleSignIn = async ({ login, password }) => {
+	const handleSignIn = async ({ username, password }) => {
 		try {
 			const response = await axios.post(
 				"http://localhost:5100/api/users/login",
-				{ login, password }
+				{ username, password }
 			);
 			setUser(response.data);
 			localStorage.setItem("token", response.data.token);
 		} catch (e) {
+			setError("Niepoprawne dane")
 			console.log(e);
 		}
 	};
@@ -115,7 +123,7 @@ const Root = () => {
 				{user ? (
 					<AuthenticatedApp />
 				) : (
-					<UnAuthenticatedApp handleSignIn={handleSignIn} />
+					<UnAuthenticatedApp loginError={error} handleSignIn={handleSignIn} />
 				)}
 				{/* <UsersProvider>
 						<Wrapper>
