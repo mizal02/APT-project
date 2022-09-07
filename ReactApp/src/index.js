@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Root from "./views/Root";
+import AppProviders from "./providers/AppProviders";
 // import reportWebVitals from "./reportWebVitals";
 
 // const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -12,7 +13,9 @@ import Root from "./views/Root";
 
 ReactDOM.render(
 	<React.StrictMode>
-				<Root />
+		<AppProviders>
+			<Root />
+		</AppProviders>
 	</React.StrictMode>,
 	document.getElementById("root")
 );
