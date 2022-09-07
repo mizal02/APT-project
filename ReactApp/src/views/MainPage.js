@@ -1,18 +1,37 @@
-import React, { useContext, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Title } from "../components/atoms/Title/Title.styles";
 import { ViewWrapper } from "../components/molecules/ViewWrapper/ViewWrapper.js";
 import { Button } from "../components/atoms/Button/Button";
-import { UsersContext } from "../providers/UsersProvider";
-import UserListItem from "../components/molecules/StudentsListItem/StudentsListItem";
 import FormField from "../components/molecules/FormField/FormField";
 import { useForm } from "../hooks/useForm";
+import axios from "axios";
+// import { useAuth } from "../hooks/useAuth";
 
 let isClick = true;
 const MainPage = () => {
-	const { handleAddUser } = useContext(UsersContext);
 	const [account, setAccount] = useState([]);
 	const { formValues, handleInputChange } = useForm("");
-	const { users } = useContext(UsersContext);
+
+	const [user, setUser] = useState(null);
+
+	useEffect(() => {
+		const UserId = localStorage.getItem("userId");
+		// const token = localStorage.getItem("token");
+		if (UserId) {
+			(async () => {
+				try {
+					const response = await axios.get(
+						`http://localhost:5100/api/users/${UserId}`
+					);
+					setUser(response.data);
+					console.log(response.data);
+				} catch (e) {
+					// setError("Niepoprawne dane")
+					console.log(e);
+				}
+			})();
+		}
+	}, []);
 
 	const onButtonClick = (e) => {
 		// handleAddUser(formValues);
@@ -44,8 +63,10 @@ const MainPage = () => {
 
 	return (
 		<ViewWrapper>
-			{/* <Title>Witaj, {users[0].login}</Title>
-			<Title>
+			<Title>Witaj, {user ? user.username : console.log(user)}</Title>
+			{console.log(localStorage.getItem("username"))}
+
+			{/*<Title>
 				{users[0].firstname} {users[0].lastname}
 			</Title>
 			<p>Stan twojego konta wynosi: {users[0].accountBalance} zł</p>
