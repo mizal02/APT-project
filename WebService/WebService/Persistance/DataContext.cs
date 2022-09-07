@@ -7,6 +7,7 @@ namespace WebService.Persistance
     {
         public DataContext(DbContextOptions options) : base(options) { }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Rental> Rental { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
