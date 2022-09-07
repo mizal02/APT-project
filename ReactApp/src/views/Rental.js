@@ -10,6 +10,7 @@ const initialFormState = {
 };
 //tutaj dane z drugiej tabeli wypożyczenia
 const Rental = () => {
+	
 	const [formValues, setFormValues] = useState(initialFormState);
 
 	const handleInputChange = (e) => {

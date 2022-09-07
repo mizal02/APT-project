@@ -1,78 +1,80 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import FormField from "../components/molecules/FormField/FormField";
-import { ViewWrapper } from "../components/molecules/ViewWrapper/ViewWrapper.js.js";
+// import { ViewWrapper } from "../components/molecules/ViewWrapper/ViewWrapper.js.js";
+import { Wrapper } from "./Register.styles";
 import { Title as StyledTitle } from "../components/atoms/Title/Title.styles";
 import { Button } from "../components/atoms/Button/Button";
-import { UsersContext } from "../providers/UsersProvider";
+import axios from "axios";
+import { useForm } from "react-hook-form";
 
-const initialFormState = {
-	firstname: "",
-	lastname: "",
-	username: "",
-	email: "",
-	password: "",
-	// accountBalance: "",
-};
 
 const Registration = () => {
-	const [formValues, setFormValues] = useState(initialFormState);
-	const { handleAddUser } = useContext(UsersContext);
+	
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
+	const [user, setUser] = useState(null);
 
-	const handleInputChange = (e) => {
-		setFormValues({
-			...formValues,
-			[e.target.name]: e.target.value,
-		});
+	const Register = async ({ email, username, password }) => {
+		try {
+			const response = await axios.post(
+				"http://localhost:5100/api/users/register",
+				{ email, username, password }
+			);
+			setUser(response.data);
+			// localStorage.setItem("username", response.data.username);
+			console(response.data);
+			// localStorage.setItem("token", response.data.token);
+		} catch (e) {
+			console.log(e);
+		}
 	};
-
-	const handleSubmitUser = (e) => {
-		e.preventDefault();
-		handleAddUser(formValues);
-
-		setFormValues(initialFormState);
-	};
-
+	//
 	return (
-		<ViewWrapper as="form" onSubmit={handleSubmitUser}>
-			<StyledTitle>Zarejestruj się</StyledTitle>
-			<FormField
-				label="Firstname"
-				id="firstname"
-				name="firstname"
-				value={formValues.firstname}
-				onChange={handleInputChange}
-			/>
-			<FormField
-				label="Lastame"
-				id="lastname"
-				name="lastname"
-				value={formValues.lastname}
-				onChange={handleInputChange}
-			/>
-			<FormField
-				label="Login"
-				id="username"
-				name="username"
-				value={formValues.username}
-				onChange={handleInputChange}
-			/>
-			<FormField
-				label="Email"
-				id="email"
-				name="email"
-				value={formValues.email}
-				onChange={handleInputChange}
-			/>
-			<FormField
-				label="Password"
-				id="password"
-				name="password"
-				type="password"
-				value={formValues.password}
-				onChange={handleInputChange}
-			/>
-			<Button type="submit">Załóż konto</Button>
-		</ViewWrapper>
+		<Wrapper>
+			<form onSubmit={handleSubmit(Register)}>
+				<StyledTitle>Zarejestruj się</StyledTitle>
+				{/* <FormField
+					label="Firstname"
+					id="firstname"
+					name="firstname"
+					value={formValues.firstname}
+					onChange={handleInputChange}
+				/>
+				<FormField
+					label="Lastame"
+					id="lastname"
+					name="lastname"
+					value={formValues.lastname}
+					onChange={handleInputChange}
+				/> */}
+				<FormField
+					label="Login"
+					id="username"
+					name="username"
+					{...register("username", { required: true })}
+				/>
+				{errors.username && <span>Login jest wymagany</span>}
+				<FormField
+					label="Email"
+					id="email"
+					name="email"
+					{...register("email", { required: true })}
+				/>
+				{errors.email && <span>Email jest wymagany</span>}
+				<FormField
+					label="Password"
+					id="password"
+					name="password"
+					type="password"
+					{...register("password", { required: true })}
+				/>
+				{errors.password && <span>Hasło jest wymagane</span>}
+				<Button type="submit">Załóż konto</Button>
+			</form>
+		</Wrapper>
 	);
 };
 

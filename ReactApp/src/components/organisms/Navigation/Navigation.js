@@ -19,7 +19,7 @@ const Navigation = () => {
 			</StyledLink>
 			{/* <StyledLink to="/add-user">Add user</StyledLink> */}
 			<StyledLink as="a" onClick={auth.signOut}>
-				Logout
+				Wyloguj
 			</StyledLink>
 			<StyledLink to="/login">Zaloguj</StyledLink>
 			{/* <StyledLink to="/register">Zarejestruj</StyledLink> */}
