@@ -1,48 +1,130 @@
-import React, { useState } from "react";
-import FormField from "../components/molecules/FormField/FormField.js";
-import { ViewWrapper } from "../components/molecules/ViewWrapper/ViewWrapper.js";
+import React, { useState, useEffect } from "react";
+import { ViewWrapper } from "../components/molecules/ViewWrapper/ViewWrapper.js.js";
 import { Title } from "../components/atoms/Title/Title.styles.js";
 import { Button } from "../components/atoms/Button/Button.js";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import { StyledLabel } from "./Root.styles.js";
+import { StyledForm } from "./Rent.styles.js";
+// import { useUserData } from "./MainPage.js";
 
-const initialFormState = {
-	time: "",
-	route: "",
-};
-//tutaj dane z drugiej tabeli wypożyczenia
 const Rental = () => {
-	
-	const [formValues, setFormValues] = useState(initialFormState);
+	const {
+		// register,
+		handleSubmit,
+		// formState: { errors },
+	} = useForm();
 
-	const handleInputChange = (e) => {
-		setFormValues({
-			...formValues,
-			[e.target.name]: e.target.value,
-		});
+	//
+	// const user = useUserData();
+	const [user, setUser] = useState(null);
+
+	useEffect(() => {
+		const UserId = localStorage.getItem("userId");
+		const token = localStorage.getItem("token");
+		const config = {
+			headers: { Authorization: `Bearer ${token}` },
+		};
+
+		if (UserId) {
+			(async () => {
+				try {
+					const response = await axios.get(
+						`http://localhost:5100/api/users/${UserId}`,
+						config
+					);
+					setUser(response.data);
+					// console.log(response.data);
+				} catch (e) {
+					// setError("Niepoprawne dane")
+					console.log(e);
+				}
+			})();
+		}
+	}, []);
+
+	const startRent = async ({ startTime }) => {
+		const UserId = localStorage.getItem("userId");
+		const token = localStorage.getItem("token");
+
+		const config = {
+			headers: { Authorization: `Bearer ${token}` },
+		};
+		try {
+			const response = await axios.post(
+				`http://localhost:5100/api/users/${UserId}/startRent`,
+				{ startTime },
+				config
+			);
+			setUser(response.data);
+			console.log(response.data);
+		} catch (e) {
+			console.log(e);
+		}
+		
+			console.log("start rent");
+		
 	};
 
-	const handleSubmitUser = (e) => {
-		e.preventDefault();
-		setFormValues(initialFormState);
-	};
+	const stopRent = async ({ endTime }) => {
+		const UserId = localStorage.getItem("userId");
+		const token = localStorage.getItem("token");
 
+		const config = {
+			headers: { Authorization: `Bearer ${token}` },
+		};
+		try {
+			const response = await axios.post(
+				`http://localhost:5100/api/users/${UserId}/endRent`,
+				{ endTime },
+				config
+			);
+			setUser(response.data);
+			console.log(response.data);
+		} catch (e) {
+			console.log(e);
+		}
+		
+			console.log("stop rent");
+		
+	};
+	let isCan = true;
 	return (
-		<ViewWrapper as="form" onSubmit={handleSubmitUser}>
+		<ViewWrapper>
 			<Title>Wypożycz hulajnogę</Title>
-			<FormField
-				label="Czas"
-				id="time"
-				name="time"
-				value={formValues.time}
-				onChange={handleInputChange}
-			/>
-			<FormField
-				label="Trasa"
-				id="route"
-				name="route"
-				value={formValues.route}
-				onChange={handleInputChange}
-			/>
-			<Button type="submit">Wyślij</Button>
+			{user
+				? user.rentals.forEach((element) => {
+						if (!element.isCompleted) {
+							isCan = false;
+						} else {
+							isCan = true;
+						}
+				  })
+				: console.log("rental page loading...")}
+			{/* {user
+				? user.rentals.forEach((element) => {
+						if (element.isCompleted) {
+							setMozna(mozna);
+						}
+				  })
+				: console.log("rental page loading...")} */}
+			{/* <form onSubmit={handleSubmit(startRent)}> */}
+			{isCan ? (
+				<StyledForm onSubmit={handleSubmit(startRent)}>
+					<StyledLabel>
+						Aby wypożyczyć kliknij przycisk "Rozpocznij"
+					</StyledLabel>
+					<Button type="submit">Rozpocznij </Button>
+				</StyledForm>
+			) : (
+				<form onSubmit={handleSubmit(stopRent)} style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+					<StyledLabel>Aby oddać kliknij przycisk "Zakończ"</StyledLabel>
+
+					<Button type="submit">Zakończ </Button>
+				</form>
+			)}
+
+			{/* </form> */}
 		</ViewWrapper>
 	);
 };

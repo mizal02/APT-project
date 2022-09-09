@@ -2,26 +2,27 @@ import React, { useState, useEffect } from "react";
 import { Title } from "../components/atoms/Title/Title.styles";
 import { ViewWrapper } from "../components/molecules/ViewWrapper/ViewWrapper.js";
 import { Button } from "../components/atoms/Button/Button";
-import FormField from "../components/molecules/FormField/FormField";
-import { useForm } from "../hooks/useForm";
 import axios from "axios";
-// import { useAuth } from "../hooks/useAuth";
+import AccountBalance from "./AccountBalance";
+import { RouteList } from "./Root.styles";
 
-let isClick = true;
 const MainPage = () => {
-	const [account, setAccount] = useState([]);
-	const { formValues, handleInputChange } = useForm("");
-
+	const [click, setClick] = useState(false);
 	const [user, setUser] = useState(null);
 
 	useEffect(() => {
 		const UserId = localStorage.getItem("userId");
-		// const token = localStorage.getItem("token");
+		const token = localStorage.getItem("token");
+		const config = {
+			headers: { Authorization: `Bearer ${token}` },
+		};
+
 		if (UserId) {
 			(async () => {
 				try {
 					const response = await axios.get(
-						`http://localhost:5100/api/users/${UserId}`
+						`http://localhost:5100/api/users/${UserId}`,
+						config
 					);
 					setUser(response.data);
 					console.log(response.data);
@@ -33,49 +34,55 @@ const MainPage = () => {
 		}
 	}, []);
 
-	const onButtonClick = (e) => {
-		// handleAddUser(formValues);
-	};
-
-	const handleAddOnClick = (e) => {
-		if (isClick) {
-			setAccount(
-				account.concat(
-					<>
-						<FormField
-							label="Kwota"
-							id="accountBalance"
-							name="accountBalance"
-							value={formValues.accountBalance}
-							onChange={handleInputChange}
-						/>
-						<Button onClick={onButtonClick}>Doładuj</Button>
-					</>
-				)
-			);
-		}
-		isClick = false;
-	};
-
-	// const handleEditData = (e) => {
-	// 	//tuatj formularz, albo strona do zmiany danych
-	// };
-
 	return (
-		<ViewWrapper>
-			<Title>Witaj, {user ? user.username : console.log(user)}</Title>
-			{console.log(localStorage.getItem("username"))}
+		<>
+			<ViewWrapper>
+				{user ? (
+					<>
+						<Title>Witaj, {user.username}</Title>
+						<Title>Email: {user.email}</Title>
+						<Title>Stan konta: {user.accountBalance.toFixed(2)}zł</Title>
+						<Title>Trasy</Title>
+						<RouteList>
+							{user.rentals.map((rental) => (
+								<li key={rental.id}>
+									{`Czas trwania: ${rental.completeTime} `}
+									<p>{`Dystans: ${rental.distance.toFixed(2)} km`}</p>{" "}
+								</li>
+							))}
+						</RouteList>
+					</>
+				) : (
+					console.log("Ładowanie")
+				)}
+				{click ? null : (
+					<Button
+						type="submit"
+						onClick={(e) => {
+							setClick(!click);
+							console.log(click);
+						}}>
+						Doładuj konto
+					</Button>
+				)}
 
-			{/*<Title>
-				{users[0].firstname} {users[0].lastname}
-			</Title>
-			<p>Stan twojego konta wynosi: {users[0].accountBalance} zł</p>
-			{account} */}
-			<Button type="submit" onClick={handleAddOnClick}>
-				Doładuj konto
-			</Button>
-			<Button>Edytuj konto</Button>
-		</ViewWrapper>
+				{click ? (
+					<>
+						<AccountBalance />
+						<Button
+							type="submit"
+							onClick={(e) => {
+								setClick(!click);
+								console.log(click);
+							}}>
+							Anuluj
+						</Button>
+						{console.log(`main page stan konta ${user.accountBalance}`)}
+					</>
+				) : null}
+				<Button>Edytuj konto</Button>
+			</ViewWrapper>
+		</>
 	);
 };
 

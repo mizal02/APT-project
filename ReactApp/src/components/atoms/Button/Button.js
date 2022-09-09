@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Button = styled.button`
 	cursor: pointer;
-	margin: 15px 2px;
+	margin: 15px 40px;
 	padding: 8px 20px;
 	font-size: ${({ theme }) => theme.fontSize.m};
 	background-color: ${({ theme }) => theme.colors.lightPurple};

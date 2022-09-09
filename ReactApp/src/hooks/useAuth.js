@@ -1,22 +1,25 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-
 const AuthContext = React.createContext({});
 
 export const AuthProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
-    const [error, setError] = React.useState(null);
+	const [error, setError] = useState(null);
 
 	useEffect(() => {
+		const UserId = localStorage.getItem("userId");
 		const token = localStorage.getItem("token");
 		if (token) {
 			(async () => {
 				try {
-					const response = await axios.get("/", {
-						headers: {
-							authorization: `Bearer ${token}`,
-						},
-					});
+					const response = await axios.get(
+						`http://localhost:5100/api/users/${UserId}`,
+						{
+							headers: {
+								authorization: `Bearer ${token}`,
+							},
+						}
+					);
 					setUser(response.data);
 				} catch (e) {
 					console.log(e);
@@ -28,15 +31,16 @@ export const AuthProvider = ({ children }) => {
 	const signIn = async ({ username, password }) => {
 		try {
 			const response = await axios.post(
-				"http://localhost:5100/api/users/login",
+				"http://localhost:5100/api/auth/login",
 				{ username, password }
 			);
 			setUser(response.data);
 			localStorage.setItem("token", response.data.token);
 			localStorage.setItem("userId", response.data.id);
 			localStorage.setItem("username", response.data.username);
+			localStorage.setItem("role", response.data.role);
 		} catch (e) {
-			setError("Niepoprawne dane")
+			setError("Niepoprawne dane");
 			console.log(e);
 		}
 	};
@@ -45,6 +49,9 @@ export const AuthProvider = ({ children }) => {
 		localStorage.removeItem("token");
 		localStorage.removeItem("username");
 		localStorage.removeItem("userId");
+		localStorage.removeItem("role");
+
+		console.log("wylogowano");
 	};
 
 	return (

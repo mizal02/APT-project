@@ -20,7 +20,7 @@ const Registration = () => {
 	const Register = async ({ email, username, password }) => {
 		try {
 			const response = await axios.post(
-				"http://localhost:5100/api/users/register",
+				"http://localhost:5100/api/auth/register",
 				{ email, username, password }
 			);
 			setUser(response.data);
