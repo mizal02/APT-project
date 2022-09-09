@@ -68,6 +68,7 @@ const MainPage = () => {
 
 				{click ? (
 					<>
+					{console.log(click)}
 						<AccountBalance />
 						<Button
 							type="submit"
