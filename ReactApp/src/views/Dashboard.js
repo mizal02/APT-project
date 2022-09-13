@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ViewWrapper } from "../components/molecules/ViewWrapper/ViewWrapper.js";
-import { Wrapper } from "./Dashboard.styles.js";
 import axios from "axios";
-import { BanButton } from "./Dashboard.styles.js";
-import BlockedUser from "./BlockedUser.js";
+import { BanButton, UserList, Wrapper } from "./Dashboard.styles.js";
 
 const Dashboard = () => {
 	const [users, setUsers] = useState(null);
@@ -22,7 +20,7 @@ const Dashboard = () => {
 					config
 				);
 				setUsers(response.data);
-				console.log(response.data);
+				// console.log(response.data);
 			} catch (e) {
 				console.log(e);
 			}
@@ -52,14 +50,15 @@ const Dashboard = () => {
 	return (
 		<>
 			<ViewWrapper>
-				{users ? (
-					users.map((user) => {
-						return (
-							<>
-								<Wrapper>
+				<UserList>
+					{users ? (
+						users.map((user) => {
+							return (
+								<Wrapper key={user.id}>
 									{`Nazwa użytkownika: ${user.username}`}
 									<p>{`Email: ${user.email}`}</p>
 									<p>{`Rola: ${user.role}`}</p>
+									<p>{`Ilość wypożyczeń: ${user.rentals.length}`}</p>
 									<p>{`Aktywny: ${user.isActive}`}</p>
 									<BanButton
 										onClick={(e) => {
@@ -70,20 +69,12 @@ const Dashboard = () => {
 										Banuj użytkownika
 									</BanButton>
 								</Wrapper>
-							</>
-						);
-					})
-				) : (
-					<p>loading users list</p>
-				)}
-				{/* {click ? (
-					<>
-						{console.log("iii")}
-						<BlockedUser UserId={IdUser} />
-					</>
-				) : (
-					console.log("nnuull")
-				)} */}
+							);
+						})
+					) : (
+						<p>loading users list</p>
+					)}
+				</UserList>
 			</ViewWrapper>
 		</>
 	);

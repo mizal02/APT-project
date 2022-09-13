@@ -10,12 +10,11 @@ const Edit = () => {
 	const {
 		register,
 		handleSubmit,
-		formState: { errors },
 	} = useForm();
 
 	const [user, setUser] = useState(null);
 
-	const ChangeData = async ({ username, password }) => {
+	const ChangeData = async ({ email, password }) => {
 		const UserId = localStorage.getItem("userId");
 		const token = localStorage.getItem("token");
 
@@ -25,7 +24,7 @@ const Edit = () => {
 		try {
 			const response = await axios.post(
 				`http://localhost:5100/api/auth/${UserId}`,
-				{ username, password },
+				{ email, password },
 				config
 			);
 			setUser(response.data);
@@ -34,7 +33,7 @@ const Edit = () => {
 			console.log(e);
 		}
 		console.log("edit");
-		// window.location.reload(false); // or true
+		window.location.reload(false); // or true
 	};
 
 	return (
@@ -43,12 +42,12 @@ const Edit = () => {
 			<form onSubmit={handleSubmit(ChangeData)}>
 				<Title>Edytuj</Title>
 				<FormField
-					label="Nowy login"
-					id="username"
-					name="username"
-					{...register("username", { required: true })}
+					label="Nowy email"
+					id="email"
+					name="email"
+					{...register("email", { required: true })}
 				/>
-				{errors.username && <span>Login</span>}
+
 				<FormField
 					label="Nowe hasło"
 					id="password"
@@ -56,7 +55,7 @@ const Edit = () => {
 					type="password"
 					{...register("password", { required: true })}
 				/>
-				{errors.password && <span>hasło</span>}
+
 				<Button type="submit">Zapisz</Button>
 			</form>
 		</Wrapper>
