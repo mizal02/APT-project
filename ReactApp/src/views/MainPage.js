@@ -70,7 +70,6 @@ const MainPage = () => {
 							}}>
 							Anuluj
 						</Button>
-						{console.log(`main page stan konta ${user.accountBalance}`)}
 					</>
 				) : (
 					<Button
@@ -84,7 +83,17 @@ const MainPage = () => {
 				)}
 
 				{editClick ? (
-					<Edit />
+					<>
+						<Edit />
+						<Button
+							type="submit"
+							onClick={(e) => {
+								setEditClick(!editClick);
+								console.log(editClick);
+							}}>
+							Anuluj
+						</Button>
+					</>
 				) : (
 					<Button
 						type="submit"
