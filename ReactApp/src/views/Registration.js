@@ -6,16 +6,17 @@ import { Title as StyledTitle } from "../components/atoms/Title/Title.styles";
 import { Button } from "../components/atoms/Button/Button";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-
+import { ErrorInfo, SuccessInfo } from "../components/atoms/Info/Info";
 
 const Registration = () => {
-	
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
 	const [user, setUser] = useState(null);
+	const [error, setError] = useState("");
+	const [success, setSuccess] = useState('')
 
 	const Register = async ({ email, username, password }) => {
 		try {
@@ -23,47 +24,35 @@ const Registration = () => {
 				"http://localhost:5100/api/auth/register",
 				{ email, username, password }
 			);
-			setUser(response.data);
-			// localStorage.setItem("username", response.data.username);
-			console(response.data);
-			// localStorage.setItem("token", response.data.token);
+			setUser(response.data);			
+			setSuccess("Udało się zarejestrować");
+			console.log(response.data);
+
 		} catch (e) {
 			console.log(e);
+			setError("Isnieje już osoba z podanym loginem i/lub emailem");
 		}
+		console.log('register')
 	};
 	//
 	return (
 		<Wrapper>
 			<form onSubmit={handleSubmit(Register)}>
 				<StyledTitle>Zarejestruj się</StyledTitle>
-				{/* <FormField
-					label="Firstname"
-					id="firstname"
-					name="firstname"
-					value={formValues.firstname}
-					onChange={handleInputChange}
-				/>
-				<FormField
-					label="Lastame"
-					id="lastname"
-					name="lastname"
-					value={formValues.lastname}
-					onChange={handleInputChange}
-				/> */}
 				<FormField
 					label="Login"
 					id="username"
 					name="username"
 					{...register("username", { required: true })}
 				/>
-				{errors.username && <span>Login jest wymagany</span>}
+				{errors.username && <ErrorInfo>Login jest wymagany</ErrorInfo>}
 				<FormField
 					label="Email"
 					id="email"
 					name="email"
 					{...register("email", { required: true })}
 				/>
-				{errors.email && <span>Email jest wymagany</span>}
+				{errors.email && <ErrorInfo>Email jest wymagany</ErrorInfo>}
 				<FormField
 					label="Password"
 					id="password"
@@ -71,9 +60,10 @@ const Registration = () => {
 					type="password"
 					{...register("password", { required: true })}
 				/>
-				{errors.password && <span>Hasło jest wymagane</span>}
+				{errors.password && <ErrorInfo>Hasło jest wymagane</ErrorInfo>}
 				<Button type="submit">Załóż konto</Button>
 			</form>
+			{error ? <ErrorInfo>{error}</ErrorInfo> : <SuccessInfo>{success}</SuccessInfo>}
 		</Wrapper>
 	);
 };
