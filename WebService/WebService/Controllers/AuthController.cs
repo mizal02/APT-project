@@ -59,14 +59,14 @@ namespace WebService.Controllers
             });
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> ChangeUser(Guid id, [FromBody] User incomingUser)
+        [HttpPost("{id}")]
+        public async Task<IActionResult> ChangeUser(Guid id, [FromBody] ChangeUser command)
         {
             var user = await _dataContext.Users.SingleOrDefaultAsync(x => x.Id == id);
             if (user == null)
                 return NotFound();
-            user.Password = incomingUser.Password;
-            user.Email = incomingUser.Email;
+            user.Password = command.Password;
+            user.Email = command.Email;
 
             await _dataContext.SaveChangesAsync();
 
