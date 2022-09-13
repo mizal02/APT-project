@@ -23,6 +23,7 @@
             Password = password;
             CreatedDate = DateTime.Now;
             AccountBalance = 0;
+            IsActive = true;
         }
 
         public void DeactiveUser()

@@ -49,6 +49,9 @@ namespace WebService.Controllers
             var user = await _dataContext.Users.SingleOrDefaultAsync(x => x.Username == command.Username);
             if (user == null || user.Password != command.Password)
                 throw new Exception("Invalid credentials");
+            if (!user.IsActive)
+                throw new Exception("User is not active");
+
             var token = _jwtHandler.CreateToken(user.Id, user.Role, command.Username);
             return Ok(new
             {
