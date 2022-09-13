@@ -32,7 +32,7 @@ namespace WebService.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            var users = await _dataContext.Users.ToListAsync();
+            var users = await _dataContext.Users.Include(x => x.Rentals).ToListAsync();
             return Ok(users);
         }
 
