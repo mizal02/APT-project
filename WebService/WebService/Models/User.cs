@@ -9,6 +9,7 @@
         public string Password { get; set; }
         public string Role { get; set; }
         public decimal AccountBalance { get; set; }
+        public string AccountBalanceString => AccountBalance.ToString("0.00");
         public bool IsActive { get; set; }
         public ICollection<Rental> Rentals { get; set; } = new List<Rental>();
 

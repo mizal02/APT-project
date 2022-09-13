@@ -7,8 +7,17 @@
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public double Distance { get; set; }
+        public string DistanceString => Distance.ToString("0.00");
         public bool IsCompleted { get; set; }
-        public TimeSpan CompleteTime => EndTime - StartTime;
+
+        public TimeSpan CompleteTime
+        {
+            get
+            {
+                var time = EndTime - StartTime;
+                return new TimeSpan(time.Days, time.Hours, time.Minutes, time.Seconds);
+            }
+        }
 
         public Rental()
         {
