@@ -5,9 +5,12 @@ import { Button } from "../components/atoms/Button/Button";
 import axios from "axios";
 import AccountBalance from "./AccountBalance";
 import { RouteList } from "./Root.styles";
+import Edit from "./Edit";
 
 const MainPage = () => {
 	const [click, setClick] = useState(false);
+	const [editClick, setEditClick] = useState(false);
+
 	const [user, setUser] = useState(null);
 
 	useEffect(() => {
@@ -55,20 +58,9 @@ const MainPage = () => {
 				) : (
 					console.log("Ładowanie")
 				)}
-				{click ? null : (
-					<Button
-						type="submit"
-						onClick={(e) => {
-							setClick(!click);
-							console.log(click);
-						}}>
-						Doładuj konto
-					</Button>
-				)}
-
 				{click ? (
 					<>
-					{console.log(click)}
+						{console.log(click)}
 						<AccountBalance />
 						<Button
 							type="submit"
@@ -80,8 +72,29 @@ const MainPage = () => {
 						</Button>
 						{console.log(`main page stan konta ${user.accountBalance}`)}
 					</>
-				) : null}
-				<Button>Edytuj konto</Button>
+				) : (
+					<Button
+						type="submit"
+						onClick={(e) => {
+							setClick(!click);
+							console.log(click);
+						}}>
+						Doładuj konto
+					</Button>
+				)}
+
+				{editClick ? (
+					<Edit />
+				) : (
+					<Button
+						type="submit"
+						onClick={(e) => {
+							setEditClick(!editClick);
+							console.log(editClick);
+						}}>
+						Edytuj konto
+					</Button>
+				)}
 			</ViewWrapper>
 		</>
 	);
