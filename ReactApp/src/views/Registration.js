@@ -14,9 +14,9 @@ const Registration = () => {
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
-	const [user, setUser] = useState(null);
+	// const [user, setUser] = useState(null);
 	const [error, setError] = useState("");
-	const [success, setSuccess] = useState('')
+	const [success, setSuccess] = useState("");
 
 	const Register = async ({ email, username, password }) => {
 		try {
@@ -24,15 +24,14 @@ const Registration = () => {
 				"http://localhost:5100/api/auth/register",
 				{ email, username, password }
 			);
-			setUser(response.data);			
+			// setUser(response.data);
 			setSuccess("Udało się zarejestrować");
 			console.log(response.data);
-
 		} catch (e) {
 			console.log(e);
 			setError("Isnieje już osoba z podanym loginem i/lub emailem");
 		}
-		console.log('register')
+		console.log("register");
 	};
 	//
 	return (
@@ -63,7 +62,11 @@ const Registration = () => {
 				{errors.password && <ErrorInfo>Hasło jest wymagane</ErrorInfo>}
 				<Button type="submit">Załóż konto</Button>
 			</form>
-			{error ? <ErrorInfo>{error}</ErrorInfo> : <SuccessInfo>{success}</SuccessInfo>}
+			{error ? (
+				<ErrorInfo>{error}</ErrorInfo>
+			) : (
+				<SuccessInfo>{success}</SuccessInfo>
+			)}
 		</Wrapper>
 	);
 };

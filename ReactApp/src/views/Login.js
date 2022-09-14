@@ -51,6 +51,8 @@ const Login = () => {
 						)}
 					</StyledForm>
 					{click ? null : (
+						<div style={{display: 'flex', flexDirection: 'column',color: '#737C8E' }}>
+						<h3>Nie masz jeszcze konta? Zarejestruj się</h3>
 						<Button
 							type="submit"
 							onClick={(e) => {
@@ -59,6 +61,7 @@ const Login = () => {
 							{" "}
 							Zarejestruj
 						</Button>
+						</div>
 					)}
 				</>
 

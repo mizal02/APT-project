@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "../components/atoms/Button/Button";
 import { Title } from "../components/atoms/Title/Title.styles";
 import FormField from "../components/molecules/FormField/FormField";
@@ -12,7 +12,7 @@ const Edit = () => {
 		handleSubmit,
 	} = useForm();
 
-	const [user, setUser] = useState(null);
+	// const [user, setUser] = useState(null);
 
 	const ChangeData = async ({ email, password }) => {
 		const UserId = localStorage.getItem("userId");
@@ -27,7 +27,7 @@ const Edit = () => {
 				{ email, password },
 				config
 			);
-			setUser(response.data);
+			// setUser(response.data);
 			console.log(response.data);
 		} catch (e) {
 			console.log(e);

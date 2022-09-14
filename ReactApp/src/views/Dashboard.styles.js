@@ -13,7 +13,13 @@ export const BanButton = styled(Button)`
     color: ${({ theme }) => theme.colors.black};
 `;
 
+export const ActiveButton = styled(Button)`
+	margin-top: 0;
+    background-color: ${({ theme }) => theme.colors.success};
+    color: ${({ theme }) => theme.colors.black};
+`;
+
 export const UserList = styled.ul`
-	max-height: 400px;
+	max-height: 450px;
 	overflow-y: scroll;
 `;

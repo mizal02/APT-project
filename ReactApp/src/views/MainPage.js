@@ -44,13 +44,13 @@ const MainPage = () => {
 					<>
 						<Title>Witaj, {user.username}</Title>
 						<Title>Email: {user.email}</Title>
-						<Title>Stan konta: {user.accountBalance.toFixed(2)}zł</Title>
+						<Title>Stan konta: {user.accountBalanceString}zł</Title>
 						<Title>Trasy</Title>
 						<RouteList>
 							{user.rentals.map((rental) => (
 								<li key={rental.id}>
 									{`Czas trwania: ${rental.completeTime} `}
-									<p>{`Dystans: ${rental.distance.toFixed(2)} km`}</p>{" "}
+									<p>{`Dystans: ${rental.distanceString} km`}</p>{" "}
 								</li>
 							))}
 						</RouteList>

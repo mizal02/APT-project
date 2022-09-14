@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { ViewWrapper } from "../components/molecules/ViewWrapper/ViewWrapper.js";
 import axios from "axios";
-import { BanButton, UserList, Wrapper } from "./Dashboard.styles.js";
+import {
+	BanButton,
+	UserList,
+	Wrapper,
+	ActiveButton,
+} from "./Dashboard.styles.js";
 
 const Dashboard = () => {
 	const [users, setUsers] = useState(null);
-	const [user, setUser] = useState(null);
+	// const [user, setUser] = useState(null);
 
 	useEffect(() => {
 		const token = localStorage.getItem("token");
@@ -20,7 +25,7 @@ const Dashboard = () => {
 					config
 				);
 				setUsers(response.data);
-				// console.log(response.data);
+				console.log(response.data);
 			} catch (e) {
 				console.log(e);
 			}
@@ -39,8 +44,8 @@ const Dashboard = () => {
 				{ userId },
 				config
 			);
-			setUser(response.data);
-			console.log(userId);
+			// setUser(response.data);
+			console.log(response);
 		} catch (e) {
 			console.log(e);
 		}
@@ -60,14 +65,25 @@ const Dashboard = () => {
 									<p>{`Rola: ${user.role}`}</p>
 									<p>{`Ilość wypożyczeń: ${user.rentals.length}`}</p>
 									<p>{`Aktywny: ${user.isActive}`}</p>
-									<BanButton
-										onClick={(e) => {
-											console.log(user.id);
-											deactive(user.id);
-											window.location.reload(false);
-										}}>
-										Banuj użytkownika
-									</BanButton>
+									{user.role === "admin" ? null : user.isActive ? (
+										<BanButton
+											onClick={(e) => {
+												console.log(user.id);
+												deactive(user.id);
+												window.location.reload(false);
+											}}>
+											Banuj użytkownika
+										</BanButton>
+									) : (
+										<ActiveButton
+											onClick={(e) => {
+												console.log(user.id);
+												deactive(user.id);
+												window.location.reload(false);
+											}}>
+											Aktywuj użytkownika
+										</ActiveButton>
+									)}
 								</Wrapper>
 							);
 						})

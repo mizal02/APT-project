@@ -6,6 +6,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { StyledLabel } from "./Root.styles.js";
 import { StyledForm } from "./Rent.styles.js";
+import { ErrorInfo } from "../components/atoms/Info/Info.js";
 // import { useUserData } from "./MainPage.js";
 
 const Rental = () => {
@@ -18,6 +19,7 @@ const Rental = () => {
 	//
 	// const user = useUserData();
 	const [user, setUser] = useState(null);
+	const [error, setError] = useState(false);
 
 	useEffect(() => {
 		const UserId = localStorage.getItem("userId");
@@ -38,6 +40,7 @@ const Rental = () => {
 				} catch (e) {
 					// setError("Niepoprawne dane")
 					console.log(e);
+
 				}
 			})();
 		}
@@ -60,10 +63,10 @@ const Rental = () => {
 			console.log(response.data);
 		} catch (e) {
 			console.log(e);
+			setError(true);
 		}
-		
-			console.log("start rent");
-		
+
+		console.log("start rent");
 	};
 
 	const stopRent = async ({ endTime }) => {
@@ -84,9 +87,8 @@ const Rental = () => {
 		} catch (e) {
 			console.log(e);
 		}
-		
-			console.log("stop rent");
-		
+
+		console.log("stop rent");
 	};
 	let isCan = true;
 	return (
@@ -110,18 +112,22 @@ const Rental = () => {
 				: console.log("rental page loading...")} */}
 			{/* <form onSubmit={handleSubmit(startRent)}> */}
 			{isCan ? (
-				<StyledForm onSubmit={handleSubmit(startRent)}>
-					<StyledLabel>
-						Aby wypożyczyć kliknij przycisk "Rozpocznij"
-					</StyledLabel>
-					<Button type="submit">Rozpocznij </Button>
-				</StyledForm>
+				<>
+					<StyledForm onSubmit={handleSubmit(startRent)}>
+						<StyledLabel>
+							Aby wypożyczyć kliknij przycisk "Rozpocznij"
+						</StyledLabel>
+						<Button type="submit">Rozpocznij </Button>
+					</StyledForm>
+					{error ? (
+						<ErrorInfo>Zbyt niski stan portfela, doladuj konto.</ErrorInfo>
+					) : null}
+				</>
 			) : (
-				<form onSubmit={handleSubmit(stopRent)} style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+				<StyledForm onSubmit={handleSubmit(stopRent)}>
 					<StyledLabel>Aby oddać kliknij przycisk "Zakończ"</StyledLabel>
-
 					<Button type="submit">Zakończ </Button>
-				</form>
+				</StyledForm>
 			)}
 
 			{/* </form> */}

@@ -29,7 +29,7 @@ namespace WebService.Controllers
             user = new User("user", command.Username, command.Email, command.Password);
             await _dataContext.Users.AddAsync(user);
             await _dataContext.SaveChangesAsync();
-            return Created($"/users/{command.Email}", null);
+            return Created($"/users/{user.Id}", null);
         }
 
         [HttpPost("deactive/{id}")]
