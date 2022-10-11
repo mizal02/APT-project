@@ -30,7 +30,6 @@ const MainPage = () => {
 					setUser(response.data);
 					console.log(response.data);
 				} catch (e) {
-					// setError("Niepoprawne dane")
 					console.log(e);
 				}
 			})();

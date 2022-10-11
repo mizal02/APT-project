@@ -10,7 +10,6 @@ import {
 
 const Dashboard = () => {
 	const [users, setUsers] = useState(null);
-	// const [user, setUser] = useState(null);
 
 	useEffect(() => {
 		const token = localStorage.getItem("token");
@@ -44,7 +43,6 @@ const Dashboard = () => {
 				{ userId },
 				config
 			);
-			// setUser(response.data);
 			console.log(response);
 		} catch (e) {
 			console.log(e);

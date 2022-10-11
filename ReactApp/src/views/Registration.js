@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import FormField from "../components/molecules/FormField/FormField";
-// import { ViewWrapper } from "../components/molecules/ViewWrapper/ViewWrapper.js.js";
 import { Wrapper } from "./Register.styles";
 import { Title as StyledTitle } from "../components/atoms/Title/Title.styles";
 import { Button } from "../components/atoms/Button/Button";
@@ -14,7 +13,7 @@ const Registration = () => {
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
-	// const [user, setUser] = useState(null);
+
 	const [error, setError] = useState("");
 	const [success, setSuccess] = useState("");
 
@@ -24,7 +23,7 @@ const Registration = () => {
 				"http://localhost:5100/api/auth/register",
 				{ email, username, password }
 			);
-			// setUser(response.data);
+
 			setSuccess("Udało się zarejestrować");
 			console.log(response.data);
 		} catch (e) {

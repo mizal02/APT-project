@@ -7,17 +7,13 @@ import { useForm } from "react-hook-form";
 import { StyledLabel } from "./Root.styles.js";
 import { StyledForm } from "./Rent.styles.js";
 import { ErrorInfo } from "../components/atoms/Info/Info.js";
-// import { useUserData } from "./MainPage.js";
+
 
 const Rental = () => {
 	const {
-		// register,
 		handleSubmit,
-		// formState: { errors },
 	} = useForm();
 
-	//
-	// const user = useUserData();
 	const [user, setUser] = useState(null);
 	const [error, setError] = useState(false);
 
@@ -36,9 +32,9 @@ const Rental = () => {
 						config
 					);
 					setUser(response.data);
-					// console.log(response.data);
+
 				} catch (e) {
-					// setError("Niepoprawne dane")
+
 					console.log(e);
 
 				}
@@ -103,14 +99,7 @@ const Rental = () => {
 						}
 				  })
 				: console.log("rental page loading...")}
-			{/* {user
-				? user.rentals.forEach((element) => {
-						if (element.isCompleted) {
-							setMozna(mozna);
-						}
-				  })
-				: console.log("rental page loading...")} */}
-			{/* <form onSubmit={handleSubmit(startRent)}> */}
+
 			{isCan ? (
 				<>
 					<StyledForm onSubmit={handleSubmit(startRent)}>
@@ -130,7 +119,6 @@ const Rental = () => {
 				</StyledForm>
 			)}
 
-			{/* </form> */}
 		</ViewWrapper>
 	);
 };

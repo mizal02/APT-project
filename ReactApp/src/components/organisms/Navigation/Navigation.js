@@ -1,7 +1,6 @@
 import React from "react";
 import { Wrapper, Logo, StyledLink } from "./Navigation.styles";
 import { useAuth } from "../../../hooks/useAuth";
-// import Login from "../../../views/Login";
 
 const Navigation = () => {
 	const auth = useAuth();

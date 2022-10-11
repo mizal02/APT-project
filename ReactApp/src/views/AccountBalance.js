@@ -10,10 +10,8 @@ const AccountBalance = () => {
 	const {
 		register,
 		handleSubmit,
-		// formState: { errors },
 	} = useForm();
 
-	// const [user, setUser] = useState(null);
 	const ChangeAcountBalance = async ({ accountBalance }) => {
 		const UserId = localStorage.getItem("userId");
 		const token = localStorage.getItem("token");
@@ -27,7 +25,6 @@ const AccountBalance = () => {
 				{ accountBalance },
 				config
 			);
-			// setUser(response.data);
 			console.log(response.data);
 		} catch (e) {
 			console.log(e);
@@ -49,8 +46,6 @@ const AccountBalance = () => {
 						name="accountBalance"
 						{...register("accountBalance", { required: true })}
 					/>
-					{/* {console.log(`stan konta: ${user.accountBalance}`)} */}
-					{/* czy tutaj trzeba dać jakąś obsługe błędów, jaką? */}
 					<Button type="submit">Doładuj</Button>
 				</form>
 			</Wrapper>

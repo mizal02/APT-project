@@ -12,8 +12,6 @@ const Edit = () => {
 		handleSubmit,
 	} = useForm();
 
-	// const [user, setUser] = useState(null);
-
 	const ChangeData = async ({ email, password }) => {
 		const UserId = localStorage.getItem("userId");
 		const token = localStorage.getItem("token");
@@ -27,13 +25,12 @@ const Edit = () => {
 				{ email, password },
 				config
 			);
-			// setUser(response.data);
 			console.log(response.data);
 		} catch (e) {
 			console.log(e);
 		}
 		console.log("edit");
-		window.location.reload(false); // or true
+		window.location.reload(false); 
 	};
 
 	return (

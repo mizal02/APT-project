@@ -15,8 +15,7 @@ const Login = () => {
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
-	// const onSubmit = ({ username, password }) =>
-	// 	handleSignIn({ username, password });
+
 	const [click, setClick] = useState(false);
 
 	return (
@@ -45,7 +44,7 @@ const Login = () => {
 						<Button type="submit">Zaloguj się</Button>
 						{auth.error && (
 							<ErrorInfo>
-								{/* {auth.error} */}
+								
 								Niepoprawne dane
 							</ErrorInfo>
 						)}
