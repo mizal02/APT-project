@@ -72,5 +72,16 @@ namespace WebService.Controllers
             return Ok(user);
         }
 
+        [HttpGet("map")]
+        public ContentResult Index()
+        {
+            var html = System.IO.File.ReadAllText(@"C:\Users\Piotr\Downloads\mapka.html");
+            return new ContentResult
+            {
+                Content = html,
+                ContentType = "text/html"
+            };
+        }
+
     }
 }
