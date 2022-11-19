@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { ViewWrapper } from "../components/molecules/ViewWrapper/ViewWrapper.js";
-import { Wrapper } from "./Dashboard.styles.js";
 import axios from "axios";
-import { BanButton } from "./Dashboard.styles.js";
-import BlockedUser from "./BlockedUser.js";
+import {
+	BanButton,
+	UserList,
+	Wrapper,
+	ActiveButton,
+} from "./Dashboard.styles.js";
 
 const Dashboard = () => {
 	const [users, setUsers] = useState(null);
-	const [user, setUser] = useState(null);
 
 	useEffect(() => {
 		const token = localStorage.getItem("token");
@@ -41,8 +43,7 @@ const Dashboard = () => {
 				{ userId },
 				config
 			);
-			setUser(response.data);
-			console.log(userId);
+			console.log(response);
 		} catch (e) {
 			console.log(e);
 		}
@@ -52,38 +53,42 @@ const Dashboard = () => {
 	return (
 		<>
 			<ViewWrapper>
-				{users ? (
-					users.map((user) => {
-						return (
-							<>
-								<Wrapper>
+				<UserList>
+					{users ? (
+						users.map((user) => {
+							return (
+								<Wrapper key={user.id}>
 									{`Nazwa użytkownika: ${user.username}`}
 									<p>{`Email: ${user.email}`}</p>
 									<p>{`Rola: ${user.role}`}</p>
+									<p>{`Ilość wypożyczeń: ${user.rentals.length}`}</p>
 									<p>{`Aktywny: ${user.isActive}`}</p>
-									<BanButton
-										onClick={(e) => {
-											console.log(user.id);
-											deactive(user.id);
-											window.location.reload(false);
-										}}>
-										Banuj użytkownika
-									</BanButton>
+									{user.role === "admin" ? null : user.isActive ? (
+										<BanButton
+											onClick={(e) => {
+												console.log(user.id);
+												deactive(user.id);
+												window.location.reload(false);
+											}}>
+											Banuj użytkownika
+										</BanButton>
+									) : (
+										<ActiveButton
+											onClick={(e) => {
+												console.log(user.id);
+												deactive(user.id);
+												window.location.reload(false);
+											}}>
+											Aktywuj użytkownika
+										</ActiveButton>
+									)}
 								</Wrapper>
-							</>
-						);
-					})
-				) : (
-					<p>loading users list</p>
-				)}
-				{/* {click ? (
-					<>
-						{console.log("iii")}
-						<BlockedUser UserId={IdUser} />
-					</>
-				) : (
-					console.log("nnuull")
-				)} */}
+							);
+						})
+					) : (
+						<p>loading users list</p>
+					)}
+				</UserList>
 			</ViewWrapper>
 		</>
 	);

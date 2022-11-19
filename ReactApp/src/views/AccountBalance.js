@@ -1,20 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import FormField from "../components/molecules/FormField/FormField";
 import { Wrapper } from "./Root.styles";
 import { Title } from "../components/atoms/Title/Title.styles";
 import { Button } from "../components/atoms/Button/Button";
-import MainPage from "./MainPage";
 
 const AccountBalance = () => {
 	const {
 		register,
 		handleSubmit,
-		formState: { errors },
 	} = useForm();
 
-	const [user, setUser] = useState(null);
 	const ChangeAcountBalance = async ({ accountBalance }) => {
 		const UserId = localStorage.getItem("userId");
 		const token = localStorage.getItem("token");
@@ -28,12 +25,11 @@ const AccountBalance = () => {
 				{ accountBalance },
 				config
 			);
-			setUser(response.data);
 			console.log(response.data);
 		} catch (e) {
 			console.log(e);
 		}
-		window.location.reload(false);
+		window.location.reload(true);
 	};
 
 	return (
@@ -50,8 +46,6 @@ const AccountBalance = () => {
 						name="accountBalance"
 						{...register("accountBalance", { required: true })}
 					/>
-					{/* {console.log(`stan konta: ${user.accountBalance}`)} */}
-					{/* czy tutaj trzeba dać jakąś obsługe błędów, jaką? */}
 					<Button type="submit">Doładuj</Button>
 				</form>
 			</Wrapper>

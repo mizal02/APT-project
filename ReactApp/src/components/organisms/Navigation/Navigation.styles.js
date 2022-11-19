@@ -26,7 +26,7 @@ export const Logo = styled.div`
 		margin-right: 20px;
 	}
 `;
-//attrs - atrybuty
+
 const activeClassName = "active-link";
 export const StyledLink = styled(NavLink).attrs({
 	activeClassName,

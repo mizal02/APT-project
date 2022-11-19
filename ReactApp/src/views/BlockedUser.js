@@ -23,8 +23,6 @@ const BlockedUser = ({ UserId }) => {
 		}
 		console.log("deactivating");
 	};
-
-	return console.log("ll")
 };
 
 export default BlockedUser;
